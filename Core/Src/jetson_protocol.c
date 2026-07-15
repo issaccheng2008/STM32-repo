@@ -18,6 +18,19 @@ static volatile bool command_available;
 static volatile uint32_t crc_error_count;
 static uint16_t tx_sequence;
 
+
+/*
+ * ST-Link/CubeIDE debug snapshot.
+ *
+ * These are intentionally global and volatile so CubeIDE Live Expressions
+ * can read them while the program is running.
+ */
+volatile RobotCommandPayload g_debug_latest_command;
+volatile uint16_t g_debug_command_sequence;
+volatile uint32_t g_debug_command_count;
+volatile uint32_t g_debug_command_received_ms;
+volatile uint32_t g_debug_crc_error_count;
+
 static uint16_t crc16_ccitt(const uint8_t *data, uint16_t length)
 {
     uint16_t crc = 0xFFFFU;
@@ -49,16 +62,35 @@ static void process_complete_frame(uint32_t now_ms)
     computed_crc = crc16_ccitt(&rx_frame[2], (uint16_t)(HEADER_SIZE - 2U + header.payload_length));
     if (received_crc != computed_crc) {
         ++crc_error_count;
+        ++g_debug_crc_error_count;
         return;
     }
 
     if ((header.message_type == PROTOCOL_MSG_COMMAND) &&
         (header.payload_length == sizeof(RobotCommandPayload))) {
         RobotCommandPayload temporary;
-        memcpy(&temporary, &rx_frame[HEADER_SIZE], sizeof(temporary));
+
+        memcpy(
+            &temporary,
+            &rx_frame[HEADER_SIZE],
+            sizeof(temporary)
+        );
+
+        /*
+         * Real command used by the controller.
+         * Reaching here means the frame passed CRC validation.
+         */
         latest_command = temporary;
         latest_command_ms = now_ms;
         command_available = true;
+
+        /*
+         * Separate snapshot for CubeIDE Live Expressions.
+         */
+        g_debug_latest_command = temporary;
+        g_debug_command_sequence = header.sequence;
+        g_debug_command_received_ms = now_ms;
+        ++g_debug_command_count;
     }
 }
 
@@ -70,6 +102,17 @@ void Protocol_Init(void)
     latest_command_ms = 0U;
     crc_error_count = 0U;
     tx_sequence = 0U;
+
+    memset(
+        (void *)&g_debug_latest_command,
+        0,
+        sizeof(g_debug_latest_command)
+    );
+
+    g_debug_command_sequence = 0U;
+    g_debug_command_count = 0U;
+    g_debug_command_received_ms = 0U;
+    g_debug_crc_error_count = 0U;
 }
 
 void Protocol_RxBytes(const uint8_t *data, uint16_t length, uint32_t now_ms)

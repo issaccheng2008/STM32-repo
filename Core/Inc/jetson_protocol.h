@@ -46,6 +46,15 @@ typedef struct {
     float kd_scale;
     uint32_t command_flags;
 } RobotCommandPayload;
+
+/* Debug variables readable through ST-Link/SWD. */
+extern volatile RobotCommandPayload g_debug_latest_command;
+extern volatile uint16_t g_debug_command_sequence;
+extern volatile uint32_t g_debug_command_count;
+extern volatile uint32_t g_debug_command_received_ms;
+extern volatile uint32_t g_debug_crc_error_count;
+
+
 #pragma pack(pop)
 
 _Static_assert(sizeof(ProtocolHeader) == 8U, "ProtocolHeader wire size must be 8 bytes");
