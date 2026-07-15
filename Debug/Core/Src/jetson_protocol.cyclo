@@ -1,0 +1,9 @@
+../Core/Src/jetson_protocol.c:21:17:crc16_ccitt	4
+../Core/Src/jetson_protocol.c:35:13:reset_rx	1
+../Core/Src/jetson_protocol.c:41:13:process_complete_frame	4
+../Core/Src/jetson_protocol.c:65:6:Protocol_Init	1
+../Core/Src/jetson_protocol.c:75:6:Protocol_RxBytes	14
+../Core/Src/jetson_protocol.c:112:6:Protocol_GetFreshCommand	5
+../Core/Src/jetson_protocol.c:124:6:Protocol_CommandIsFresh	3
+../Core/Src/jetson_protocol.c:133:10:Protocol_EncodeState	4
+../Core/Src/jetson_protocol.c:156:10:Protocol_GetCrcErrorCount	1

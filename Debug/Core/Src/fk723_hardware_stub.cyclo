@@ -1,0 +1,11 @@
+../Core/Src/fk723_hardware_stub.c:15:6:Hardware_GetJointPositionRad	1
+../Core/Src/fk723_hardware_stub.c:20:6:Hardware_GetJointVelocityRadS	1
+../Core/Src/fk723_hardware_stub.c:25:6:Hardware_GetAccelerationMS2	1
+../Core/Src/fk723_hardware_stub.c:32:6:Hardware_GetGyroRadS	1
+../Core/Src/fk723_hardware_stub.c:39:6:Hardware_ImuDataValid	1
+../Core/Src/fk723_hardware_stub.c:40:6:Hardware_EncodersDataValid	1
+../Core/Src/fk723_hardware_stub.c:41:6:Hardware_MotorsHaveFault	1
+../Core/Src/fk723_hardware_stub.c:42:6:Hardware_MotorsAreEnabled	1
+../Core/Src/fk723_hardware_stub.c:44:6:Hardware_MotorsSetPositionTargets	1
+../Core/Src/fk723_hardware_stub.c:56:6:Hardware_MotorsDisable	1
+../Core/Src/fk723_hardware_stub.c:61:10:Hardware_Micros32	1
