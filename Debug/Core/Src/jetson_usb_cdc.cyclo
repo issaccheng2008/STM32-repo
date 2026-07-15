@@ -1,0 +1,2 @@
+../Core/Src/jetson_usb_cdc.c:15:6:JetsonUsbCdc_OnReceive	3
+../Core/Src/jetson_usb_cdc.c:31:9:JetsonUsbCdc_SendState	4
